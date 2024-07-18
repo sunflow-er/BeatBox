@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         beatBox = BeatBox(assets)
-        beatBox.loadSounds()
         
         // 바인딩
         val binding: ActivityMainBinding =
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         // 리사이클러 뷰
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
-            adapter = SoundAdapter()
+            adapter = SoundAdapter(beatBox.sounds)
         }
     }
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private inner class SoundAdapter() : RecyclerView.Adapter<SoundHolder>() {
+    private inner class SoundAdapter(private val sounds : List<Sound>) : RecyclerView.Adapter<SoundHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SoundHolder {
             // ListItemSoundBinding 바인딩 클래스의 인스턴스 생성 및 참조
             val binding = DataBindingUtil.inflate<ListItemSoundBinding>(layoutInflater, R.layout.list_item_sound, parent,false)
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return 0
+            return sounds.size
         }
 
         override fun onBindViewHolder(holder: SoundHolder, position: Int) {
