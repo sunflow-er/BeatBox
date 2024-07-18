@@ -19,11 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         beatBox = BeatBox(assets)
-        
+
         // 바인딩
         val binding: ActivityMainBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_main) // 액티비티의 레이아웃을 설정하고, 바인딩 클래스 인스턴스 생성
-        
+            DataBindingUtil.setContentView(
+                this,
+                R.layout.activity_main
+            ) // 액티비티의 레이아웃을 설정하고, 바인딩 클래스 인스턴스 생성
+
         // 리사이클러 뷰
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -31,14 +34,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private inner class SoundHolder(private val binding: ListItemSoundBinding) : RecyclerView.ViewHolder(binding.root) {
+    private inner class SoundHolder(private val binding: ListItemSoundBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.viewModel = SoundViewModel() // 뷰모델 인스턴스 생성
+        }
 
+        fun bind(sound: Sound) {
+            binding.apply {
+                viewModel?.sound = sound // 뷰모델 속성 변경
+                executePendingBindings() // 데이터 변경 즉시 반영
+            }
+        }
     }
 
-    private inner class SoundAdapter(private val sounds : List<Sound>) : RecyclerView.Adapter<SoundHolder>() {
+    private inner class SoundAdapter(private val sounds: List<Sound>) :
+        RecyclerView.Adapter<SoundHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SoundHolder {
             // ListItemSoundBinding 바인딩 클래스의 인스턴스 생성 및 참조
-            val binding = DataBindingUtil.inflate<ListItemSoundBinding>(layoutInflater, R.layout.list_item_sound, parent,false)
+            val binding = DataBindingUtil.inflate<ListItemSoundBinding>(
+                layoutInflater,
+                R.layout.list_item_sound,
+                parent,
+                false
+            )
 
             return SoundHolder(binding)
         }
@@ -48,6 +67,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: SoundHolder, position: Int) {
+            val sound = sounds[position]
+            holder.bind(sound)
         }
     }
 }
