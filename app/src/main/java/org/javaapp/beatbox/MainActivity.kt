@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.javaapp.beatbox.databinding.ActivityMainBinding
 import org.javaapp.beatbox.databinding.ListItemSoundBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() { // 컨트롤러 : 데이터 바인딩과 뷰모델을 초기화하고 연결하는 역할
     private lateinit var beatBox: BeatBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
