@@ -13,8 +13,13 @@ import org.javaapp.beatbox.databinding.ActivityMainBinding
 import org.javaapp.beatbox.databinding.ListItemSoundBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var beatBox: BeatBox
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        beatBox = BeatBox(assets)
+        beatBox.loadSounds()
         
         // 바인딩
         val binding: ActivityMainBinding =
