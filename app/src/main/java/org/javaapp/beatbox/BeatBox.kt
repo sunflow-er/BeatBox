@@ -20,6 +20,14 @@ class BeatBox (private val assets : AssetManager){
         sounds = loadSounds()
     }
 
+    
+    // 음원 재생
+    fun play(sound: Sound) {
+        sound.soundId?.let {
+            soundPool.play(it, 1.0f, 1.0f, 1, 0, 1.0f) // (음원ID, 왼쪽 볼륨, 오른쪽 볼륨, 스트림 우선순위, 반복 재생 여부, 재생 속도)
+        }
+    }
+
     // asset 파일에 저장된 음원 정보로 Sound 인스턴스 리스트를 만들어 반환
     private fun loadSounds() : List<Sound> {
 
