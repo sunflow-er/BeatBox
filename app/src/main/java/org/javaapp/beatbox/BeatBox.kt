@@ -1,15 +1,18 @@
 package org.javaapp.beatbox
 
 import android.content.res.AssetManager
+import android.media.SoundPool
 import android.util.Log
 
 // 상수
 private const val TAG = "BeatBox" // 로그 메시지에 사용할 태그
 private const val SOUNDS_FOLDER = "sample_sounds" // 애셋이 저장된 폴더 이름
+private const val MAX_SOUNDS = 5 // 동시에 재생될 수 있는 최대 음악 개수
 
 class BeatBox (private val assets : AssetManager){
 
     val sounds : List<Sound>
+    private val soundPool = SoundPool.Builder().setMaxStreams(MAX_SOUNDS).build() // SoundPool 객체 생성
 
     init {
         sounds = loadSounds()
