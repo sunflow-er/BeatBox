@@ -1,13 +1,15 @@
 package org.javaapp.beatbox
 
+import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
 import android.media.SoundPool
 import android.util.Log
+import java.io.IOException
 
 // 상수
 private const val TAG = "BeatBox" // 로그 메시지에 사용할 태그
 private const val SOUNDS_FOLDER = "sample_sounds" // 애셋이 저장된 폴더 이름
-private const val MAX_SOUNDS = 5 // 동시에 재생될 수 있는 최대 음악 개수
+private const val MAX_SOUNDS = 5 // 동시에 재생될 수 있는 최대 음악 개수, 여섯 번째 음원을 재생하려고 하면 가장 오래된 음원의 재생이 중단된다.
 
 class BeatBox (private val assets : AssetManager){
 
@@ -37,8 +39,20 @@ class BeatBox (private val assets : AssetManager){
         soundNames.forEach { filename -> // 문자열 정보를 Sound 객체로
             val assetPath = "$SOUNDS_FOLDER/$filename"
             val sound = Sound(assetPath)
-            sounds.add(sound)
+            try {
+                load(sound) // 모든 음원을 로드
+                sounds.add(sound)
+            } catch (ioe : IOException) {
+                Log.e(TAG, "Could not load sound $filename", ioe)
+            }
         }
         return sounds 
+    }
+
+    // SoundPool에 Sound 인스턴스를 로드하기 위한 함수
+    private fun load(sound : Sound) {
+        val afd : AssetFileDescriptor = assets.openFd(sound.assetPath)
+        val soundId = soundPool.load(afd, 1) // 나중에 재생할 음원 파일을 SoundPool에 로드하고, 정수ID 반환
+        sound.soundId = soundId
     }
 }
