@@ -4,7 +4,13 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 
 // 뷰모델 : 뷰로 보여줄 데이터를 형식화하는 역할 담당
-class SoundViewModel : BaseObservable() { // BaseObservable 상속
+class SoundViewModel(private val beatBox: BeatBox) : BaseObservable() {
+    fun onButtonClicked() {
+        sound?.let{
+            beatBox.play(it)
+        }
+    }
+    // BaseObservable 상속
     // 사용할 Sound 객체
     var sound : Sound? = null
         set(sound) {

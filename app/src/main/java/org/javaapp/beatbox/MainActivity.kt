@@ -34,10 +34,15 @@ class MainActivity : AppCompatActivity() { // 컨트롤러 : 데이터 바인딩
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        beatBox.release() // 액티비티가 소멸하면, SoundPool 클린업
+    }
+
     private inner class SoundHolder(private val binding: ListItemSoundBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.viewModel = SoundViewModel() // 뷰모델 인스턴스 생성
+            binding.viewModel = SoundViewModel(beatBox) // 뷰모델 인스턴스 생성
         }
 
         fun bind(sound: Sound) {
