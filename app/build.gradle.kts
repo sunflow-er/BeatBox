@@ -52,4 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // testImplementation : 라이브러리 의존성이 이 앱의 테스트 빌드에만 포함됨을 의미
+    testImplementation("org.mockito:mockito-core:3.3.3")
+    testImplementation("org.mockito:mockito-inline:3.3.3")
 }
