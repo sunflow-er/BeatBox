@@ -28,6 +28,11 @@ class BeatBox (private val assets : AssetManager){
         }
     }
 
+    // 클린업(리소스 해제)
+    fun release() {
+        soundPool.release()
+    }
+
     // asset 파일에 저장된 음원 정보로 Sound 인스턴스 리스트를 만들어 반환
     private fun loadSounds() : List<Sound> {
 
